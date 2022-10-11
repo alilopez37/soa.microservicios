@@ -1,10 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const userController = require('../controllers/users')
 
-
 router.get('/usernameValidate/:username',userController.usernameValidate);
-router.post('/signup',userController.signup)
-router.post('/login',userController.login)
+router.post('/',userController.signup)
+router.get('/',userController.login)
 
 module.exports = router;

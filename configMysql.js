@@ -1,10 +1,10 @@
 const mysql = require('mysql2');
 
 const config = {
-    host : process.env.DB_HOST || '172.17.0.2',
-    user : 'root',
-    database: 'mysql',
-    password: 'pass',
+    host : process.env.DB_HOST || 'systemadmin.cw9txxkwsaoy.us-east-1.rds.amazonaws.com',
+    user : 'admin',
+    database: 'example',
+    password: '0HF73AZDqep1BnqVayMF',
 };
 
 const conn = mysql.createConnection(config);

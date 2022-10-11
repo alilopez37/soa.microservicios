@@ -22,15 +22,16 @@ const usernameValidate = (req, res) => {
 
 const signup = (req, res) => {
 
-    if (req.user) {
+    if (JSON.stringify(req.body) !== '{}') {
+        console.log('Por acá')
         const user = {
             //idRol : req.body.idRol,
-            nombre : req.body.nombre,
-            apellidoPaterno : req.body.apellidoPaterno,
-            apellidoMaterno : req.body.apellidoMaterno,
+            name : req.body.name,
+            lastname : req.body.lastname,
             username : req.body.username,
             password : bcrypt.hashSync(req.body.password,10)
         }
+        console.log(user.password.length)
         userDAO.insertUser(user, (data) => {
             res.send({
                 status: true,
@@ -45,41 +46,47 @@ const signup = (req, res) => {
         })
     }
     else {
+        console.log(':)')
         res.send({
             status:false,
-            message: 'Este servicio requiere el uso de un Token válido, contactar al administrador',
-            error: '100. Falta token'
+            message: 'Este servicio un objeto json, contactar al administrador',
+            error: '100. Falta object'
         })
     }
 
 }
 
 const login = (req,res) => {
-    let username = req.body.username
-    let password = req.body.password
-    userDAO.findByUsername(username, (data) => {
-        if (data) {
-            console.log('Data =>',data)
-            if (bcrypt.compareSync(password, data.password)){
-                res.send({
-                    status: true,
-                    rol: idRol,
-                    message: 'Contraseña correcta',
-                    token: jwt.generateToken(data)
-                })
+    if (req.body.username) {
+        let username = req.body.username
+        let password = req.body.password
+        userDAO.findByUsername(username, (data) => {
+            if (data) {
+                console.log('Data =>', data)
+                if (bcrypt.compareSync(password, data.password)) {
+                    res.send({
+                        status: true,
+                        message: 'Contraseña correcta',
+                    })
+                } else {
+                    res.send({
+                        status: false,
+                        message: 'Contraseña incorrecta'
+                    })
+                }
             } else {
                 res.send({
                     status: false,
-                    message: 'Contraseña incorrecta'
+                    message: 'La cuenta de usuario no existe'
                 })
             }
-        } else {
-            res.send({
-                status: false,
-                message: 'La cuenta de usuario no existe'
-            })
-        }
-    })
+        })
+    } else {
+        res.send({
+            status: false,
+            message: 'Ha ocurrido un error en la invocación del método'
+        })
+    }
 }
 
 module.exports = {
