@@ -7,11 +7,11 @@ const config = {
     password: '0HF73AZDqep1BnqVayMF',
 };
 
-const conn = mysql.createConnection(config);
+//const conn = mysql.createConnection(config);
 
-conn.connect(function(err) {
-    if (err) throw err;
-    console.log('Conexión a la base de datos exitosa!');
-});
+// conn.connect(function(err) {
+//     if (err) throw err;
+//     console.log('Conexión a la base de datos exitosa!');
+// });
 
-module.exports = conn;
+//module.exports = conn;
